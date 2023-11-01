@@ -5,4 +5,4 @@ $ kubectl create secret generic bitfusion-client-secret-client.yml --from-file=t
 $ kubectl create secret generic bitfusion-client-secret-servers.conf --from-file=tokens/servers.conf -n bfc-namespace
 
 ONCE SECRET ARE CREATED JUST RUN YOU POD
-kubectl create -f bfc-pod.yaml
+kubectl create -f run-pod.yaml
