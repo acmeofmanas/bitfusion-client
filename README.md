@@ -13,5 +13,5 @@ kubectl create -f run-pod.yaml
 ```
 K EXEC -IT POD -- BASH
 ```
->  BITFUSION SMI 
-  BITFUSION LIST_GPUS
++_BITFUSION SMI_
++_BITFUSION LIST_GPUS_
