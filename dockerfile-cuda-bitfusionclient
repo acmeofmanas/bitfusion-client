@@ -1,0 +1,32 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        apt-utils \
+        build-essential \
+        ca-certificates \
+        curl \
+        kmod \
+        gnupg
+# Use for non-interactive timezone
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
+
+# TODO: Make this work with Bitfusion GA version
+RUN cd /tmp && \
+      curl -fSslL -O https://packages.vmware.com/bitfusion/ubuntu/20.04/bitfusion-client-ubuntu2004_4.5.4-6_amd64.deb && \
+      apt install -y ./bitfusion-client-ubuntu2004_4.5.4-6_amd64.deb && \
+      rm -rf /tmp/*
+
+# Bitfusion permission
+RUN usermod -aG bitfusion root &&\
+    chmod -R 751 /etc/bitfusion/
+
+# Install Cuda 11.0
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin && \
+  mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600 && \
+  wget http://developer.download.nvidia.com/compute/cuda/11.0.2/local_installers/cuda-repo-ubuntu2004-11-0-local_11.0.2-450.51.05-1_amd64.deb && \
+  dpkg -i cuda-repo-ubuntu2004-11-0-local_11.0.2-450.51.05-1_amd64.deb && \
+  apt-key add /var/cuda-repo-ubuntu2004-11-0-local/7fa2af80.pub && \
+  apt-get update
+# Use for non-interactive keyboard
+RUN DEBIAN_FRONTEND=noninteractive apt-get install keyboard-configuration && \
+    apt-get -y install cuda
