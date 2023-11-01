@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bfc-test-pod
+spec:
+  hostNetwork: true
+  containers:
+  - name: bfc-test-pod
+    image: acmeofmanas/bitfusion-client:v454
+    command: ["/bin/sh", "-c", "while : ;do curl http://localhost:80/; sleep 3; done"]
+    volumeMounts:
+    - name: config-files
+      mountPath: /etc/bitfusion
+    - name: certificate  
+      mountPath: /etc/bitfusion/tls  
+  volumes:
+  - name: config-files
+    projected:
+      defaultMode: 0640
+      sources:
+      - secret:
+          name: bitfusion-client-secret-client.yml
+      - secret:
+          name: bitfusion-client-secret-servers.conf
+  - name: certificate
+    secret:
+      secretName: bitfusion-client-secret-ca.crt
+      defaultMode: 0640
