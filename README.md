@@ -6,3 +6,9 @@ $ kubectl create secret generic bitfusion-client-secret-servers.conf --from-file
 
 ONCE SECRET ARE CREATED JUST RUN YOU POD
 kubectl create -f run-pod.yaml
+
+
+TO TEST IF GPU ARE ACCESSIBLE 
+K EXEC -IT POD -- BASH
+  BITFUSION SMI 
+  BITFUSION LIST_GPUS
